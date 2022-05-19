@@ -28,15 +28,13 @@ function App() {
   }
 
   const { data, error, isError, isLoading } = useQuery("posts", fetchPosts);
-  // first argument is a string to cache and track the query result
-  if (isLoading) {
+    if (isLoading) {
     return <div>Loading...</div>;
   }
   if (isError) {
     return <div>Error! {error.message}</div>;
   }
-
-  return (
+    return (
     <Container>
       <Heading>Posts</Heading>
       {data.map((post, index) => {
