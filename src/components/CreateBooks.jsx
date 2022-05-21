@@ -11,12 +11,12 @@ export const CreateBooks = () => {
 
   const queryInvalidation = useQueryClient();
   const { isLoading, data, mutateAsync } = useMutation(
-    "addPosts",
+    "newUsers",
     createPosts,
     {
       onSuccess: () => {
         console.log("success");
-        queryInvalidation.invalidateQueries("posts");
+        queryInvalidation.invalidateQueries("Users");
       },
     }
   );
@@ -27,7 +27,7 @@ export const CreateBooks = () => {
   };
 
   async function createPosts() {
-    const { data } = await axios.post("http://localhost:8000/employees", {
+    const { data } = await axios.post("http://localhost:8000/Users", {
       email: email,
       first_name: text,
       last_name: body,

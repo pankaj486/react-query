@@ -1,5 +1,5 @@
 {
-  "employees": [
+  "Users": [
     {
       "id": 1,
       "first_name": "Sebastian",
@@ -41,6 +41,12 @@
       "first_name": "Divansh",
       "last_name": "Kumar",
       "id": 7
+    },
+    {
+      "email": "shipali@gmail.com",
+      "first_name": "shivani",
+      "last_name": "devi",
+      "id": 8
     }
   ]
 }

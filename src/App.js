@@ -12,11 +12,11 @@ const Heading = styled.h1`
 
 function App() {
   async function fetchPosts() {
-    const { data } = await axios.get("http://localhost:8000/employees");
+    const { data } = await axios.get("http://localhost:8000/Users");
     return data;
   }
 
-  const { data, error, isError, isLoading } = useQuery("posts", fetchPosts);
+  const { data, error, isError, isLoading } = useQuery("Users", fetchPosts);
   if (isLoading) {
     return (
       <div className="ui active inverted dimmer">
@@ -46,7 +46,7 @@ function App() {
           </div>
         );
       })}
-      <BooksList />
+      {/* <BooksList /> */}
       <CreateBooks />
       <UpdateBooks />
 

@@ -11,7 +11,7 @@ export const useGetFetchQuery = (name) => {
 
 export const BooksList = () => {
 
-    const books = useGetFetchQuery("posts");
+    const books = useGetFetchQuery("Users");
 
     // console.log("books", books);
     return (
