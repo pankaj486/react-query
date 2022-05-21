@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-// import {useMutation} from 'react-query';
+import { createPosts } from "../apiFetcher";
+import { Loader } from "./Loader";
+
 
 export const CreateBooks = () => {
   const [text, setText] = useState("");
   const [body, setBody] = useState("");
   const [email, setEmail] = useState("");
-//   const [getData, setGetData] = useState([]);
 
   const queryInvalidation = useQueryClient();
-  const { isLoading, data, mutateAsync } = useMutation(
+  const { isLoading, mutateAsync } = useMutation(
     "newUsers",
-    createPosts,
+    createPosts(email, text, body),
     {
       onSuccess: () => {
         console.log("success");
@@ -20,28 +20,11 @@ export const CreateBooks = () => {
       },
     }
   );
-  console.log("data", data);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await mutateAsync({ first_name: text, last_name: body, email: email });
   };
-
-  async function createPosts() {
-    const { data } = await axios.post("http://localhost:8000/Users", {
-      email: email,
-      first_name: text,
-      last_name: body,
-    });
-    return data
-  }
-
-  if (isLoading) {
-    return (
-      <div className="ui active inverted dimmer">
-        <div className="ui text loader">Loading</div>
-      </div>
-    );
-  }
 
   return (
     <div>
@@ -74,7 +57,13 @@ export const CreateBooks = () => {
             placeholder="Email"
           />
         </div>
-        <button className="ui button" type="submit">Submit</button>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <button className="ui button" type="submit">
+            Submit
+          </button>
+        )}
       </form>
     </div>
   );
