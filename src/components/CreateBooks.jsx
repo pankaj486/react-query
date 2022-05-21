@@ -3,52 +3,79 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 // import {useMutation} from 'react-query';
 
-
-
 export const CreateBooks = () => {
+  const [text, setText] = useState("");
+  const [body, setBody] = useState("");
+  const [email, setEmail] = useState("");
+//   const [getData, setGetData] = useState([]);
 
-    const [text, setText] = useState("");
-    const [body, setBody] = useState("");
-    const [getData, setGetData] = useState([]);
+  const queryInvalidation = useQueryClient();
+  const { isLoading, data, mutateAsync } = useMutation(
+    "addPosts",
+    createPosts,
+    {
+      onSuccess: () => {
+        console.log("success");
+        queryInvalidation.invalidateQueries("posts");
+      },
+    }
+  );
+  console.log("data", data);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await mutateAsync({ first_name: text, last_name: body, email: email });
+  };
 
-
-    const queryInvalidation = useQueryClient();
-    const { isLoading, data, mutateAsync } = useMutation("addPosts", createPosts, {
-        onSuccess: () => {
-            console.log("success");
-            queryInvalidation.invalidateQueries("posts");
-        }
+  async function createPosts() {
+    const { data } = await axios.post("http://localhost:8000/employees", {
+      email: email,
+      first_name: text,
+      last_name: body,
     });
-    console.log("data", data);
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        // console.log("text", text);
-        // setText(text);
-        // setBody(body);
-        await mutateAsync({ title: text, body: body });
-    };
+    return data
+  }
 
-    async function createPosts() {
-        const { data } = await axios.post(
-            "https://jsonplaceholder.typicode.com/posts/", { userId: 11, id: 101, text, body }
-        );
-        return setGetData(data);
-    }
-
-    if (isLoading) {
-        return <div>Data Saving...Wait</div>;
-    }
-
+  if (isLoading) {
     return (
-        <div>
-            <h1>CreateBooks</h1>
-            <form onSubmit={handleSubmit}>
-                <input type="text" value={text} onChange={(e) => setText(e.target.value)} />
-                <input type="text" value={body} onChange={(e) => setBody(e.target.value)} />
-                <button type="submit">Submit</button>
-            </form>
-            {getData ? (<><h1>{getData.text}</h1>
-                <p>{getData.body}</p></>) : null}
-        </div>
+      <div className="ui active inverted dimmer">
+        <div className="ui text loader">Loading</div>
+      </div>
     );
-}
+  }
+
+  return (
+    <div>
+      <h1>CreateBooks</h1>
+      <form className="ui form" onSubmit={handleSubmit}>
+        <div className="field">
+          <label>First Name</label>
+          <input
+            type="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="First Name"
+          />
+        </div>
+        <div className="field">
+          <label>Last Name</label>
+          <input
+            type="text"
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            placeholder="Last Name"
+          />
+        </div>
+        <div className="field">
+          <label>Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+          />
+        </div>
+        <button className="ui button" type="submit">Submit</button>
+      </form>
+    </div>
+  );
+};
