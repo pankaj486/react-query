@@ -3,17 +3,12 @@ import { useQueryClient } from "react-query";
 
 export const useGetFetchQuery = (name) => {
     const queryClient = useQueryClient();
-
     return queryClient.getQueryData(name);
 };
-
-
 
 export const BooksList = () => {
 
     const books = useGetFetchQuery("Users");
-
-    // console.log("books", books);
     return (
         <div>
             <h1>BooksList</h1>

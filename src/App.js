@@ -5,6 +5,7 @@ import { CreateBooks } from "./components/CreateBooks";
 import { UpdateBooks } from "./components/UpdateBooks";
 import { fetchPosts } from "./apiFetcher";
 import { Loader } from "./components/Loader";
+import { GoogleMap } from "./components/GoogleMap";
 // import { Route, Routes } from "react-router-dom";
 
 const Heading = styled.h1`
@@ -42,8 +43,9 @@ function App() {
             );
           })}
           {/* <BooksList /> */}
-          <CreateBooks />
-          <UpdateBooks />
+          {/* <CreateBooks />
+          <UpdateBooks /> */}
+          <GoogleMap />
 
           {/* <Routes>
         <Route path="/book_lists">
